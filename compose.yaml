@@ -4,9 +4,10 @@ services:
   postgres:
     image: 'postgres:15'
     environment:
-      - 'POSTGRES_DB=db'
-      - 'POSTGRES_PASSWORD=password'
-      - 'POSTGRES_USER=user'
+      - 'POSTGRES_DB=mydatabase'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=myuser'
+      - 'TIME_ZONE=UTC'
     ports:
       - '5436:5432'
     volumes:
