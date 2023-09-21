@@ -29,15 +29,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
-    JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
 
     @Override
     public JwtResponse login(LoginRequest loginRequest) {
