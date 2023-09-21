@@ -1,13 +1,14 @@
 package com.recordsystem.userservice.service;
 
-import com.recordsystem.userservice.payload.request.LoginRequest;
-import com.recordsystem.userservice.payload.request.SignupRequest;
-import com.recordsystem.userservice.payload.response.JwtResponse;
-import com.recordsystem.userservice.payload.response.MessageResponse;
+import com.recordsystem.userservice.dto.UserDto;
+import com.recordsystem.userservice.request.LoginRequest;
+import com.recordsystem.userservice.request.SignupRequest;
 
 public interface AuthService {
 
-    JwtResponse login(LoginRequest loginRequest);
+    String login(LoginRequest loginRequest);
 
-    MessageResponse signup(SignupRequest signupRequest);
+    UserDto registerUser(SignupRequest signupRequest);
+
+    UserDto registerAdmin(SignupRequest signUpRequest);
 }
