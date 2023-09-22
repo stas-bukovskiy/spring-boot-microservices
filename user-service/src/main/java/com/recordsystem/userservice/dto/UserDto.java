@@ -1,17 +1,18 @@
 package com.recordsystem.userservice.dto;
 
-import com.recordsystem.userservice.model.Role;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UserDto {
-    private Long id;
-    private String email;
-    private Role role;
+    private String id;
+    private String username;
+    private String role;
+    private long createdAt;
 }

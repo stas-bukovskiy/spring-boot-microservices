@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    active: dev
+  docker:
+    compose:
+      enabled: false
+token:
+  signing:
+    key: ahtyiY4ky67ovr68w8846Gr67Ggf6HhfnkOPnsodosaOPAwpmwqppmcsa01242dpwsazk
+  expiration: 4320000ms
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  docker:
+    compose:
+      enabled: true
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+

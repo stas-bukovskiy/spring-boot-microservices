@@ -1,14 +1,11 @@
 package com.recordsystem.userservice.service;
 
-import com.recordsystem.userservice.dto.UserDto;
-import com.recordsystem.userservice.request.LoginRequest;
-import com.recordsystem.userservice.request.SignupRequest;
+import com.recordsystem.userservice.dto.AuthenticationRequest;
+import com.recordsystem.userservice.models.User;
+import reactor.core.publisher.Mono;
 
 public interface AuthService {
+    Mono<String> loginUser(AuthenticationRequest authRequestMono);
 
-    String login(LoginRequest loginRequest);
-
-    UserDto registerUser(SignupRequest signupRequest);
-
-    UserDto registerAdmin(SignupRequest signUpRequest);
+    Mono<User> verifyToken(String tokenToVerify);
 }
