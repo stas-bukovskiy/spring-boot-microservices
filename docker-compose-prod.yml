@@ -10,7 +10,7 @@ services:
       - 'POSTGRES_USER=user'
       - 'TIME_ZONE=UTC'
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
       - db:/var/lib/postgresql/data
 
@@ -18,11 +18,11 @@ services:
     build:
       context: ./user-service
     ports:
-      - '9000:8000'
+      - '8000:8000'
     depends_on:
       - postgres
     environment:
-      SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/database
+      SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5433/database
       SPRING_R2DBC_USERNAME: user
       SPRING_R2DBC_PASSWORD: password
     links:

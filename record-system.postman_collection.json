@@ -32,7 +32,7 @@
 								}
 							}
 						},
-						"url": "http://localhost:8000/api/v1/users/register"
+						"url": "http://localhost:8080/api/v1/users/register"
 					},
 					"response": []
 				},
@@ -74,6 +74,46 @@
 				"type": "bearer",
 				"bearer": {
 					"token": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJpYXQiOjE2ODg4MTc1NDAsImV4cCI6MTY4ODgyMTg2MH0.EmI75KdVLWl-pGzi3hIKu0wz069rDTr7v3HLwAmvLh0"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "faculty-service",
+			"item": [
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8001/api/v1/faculty"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk1NjUzMjUyLCJleHAiOjE2OTU2NTc1NzJ9.pDYaLHrbtxE8Jb3InmpU8TZtKClCiuV2g-e2wWXA1eA"
 				}
 			},
 			"event": [
