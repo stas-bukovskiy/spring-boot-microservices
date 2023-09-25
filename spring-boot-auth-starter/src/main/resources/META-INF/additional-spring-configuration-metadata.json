@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "service.auth.base-url",
+      "type": "java.lang.String",
+      "description": "Sets base URL for authentication service."
+    }
+  ]
+}

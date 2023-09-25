@@ -34,6 +34,10 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+
+	implementation 'org.springframework.retry:spring-retry:2.0.3'
+	implementation 'org.springframework:spring-aspects:6.0.12'
 }
 
 tasks.named('test') {
