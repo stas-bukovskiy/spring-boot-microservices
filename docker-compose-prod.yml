@@ -22,7 +22,7 @@ services:
     depends_on:
       - postgres
     environment:
-      SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5433/database
+      SPRING_R2DBC_URL: r2dbc:postgresql://postgres/database
       SPRING_R2DBC_USERNAME: user
       SPRING_R2DBC_PASSWORD: password
     links:
@@ -37,9 +37,10 @@ services:
       - postgres
       - user-service
     environment:
-      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5433/database'
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres/database'
       - 'SPRING_DATASOURCE_USERNAME=user'
       - 'SPRING_DATASOURCE_PASSWORD=password'
+      - 'SERVICE_AUTH_BASE-URl=http://user-service:8000/api/v1/auth'
     links:
       - postgres
 
