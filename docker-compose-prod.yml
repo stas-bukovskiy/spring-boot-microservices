@@ -28,6 +28,22 @@ services:
     links:
       - postgres
 
+  faculty-service:
+    build:
+      context: ./faculty-service
+    ports:
+      - '8001:8001'
+    depends_on:
+      - postgres
+      - user-service
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5433/database'
+      - 'SPRING_DATASOURCE_USERNAME=user'
+      - 'SPRING_DATASOURCE_PASSWORD=password'
+    links:
+      - postgres
+
+
 volumes:
   db:
     driver:
