@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: database
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: password
+      imagePullSecrets:
+        - name: my-docker-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: "TCP"
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: faculty-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: faculty-service
+  template:
+    metadata:
+      labels:
+        app: faculty-service
+    spec:
+      containers:
+        - name: faculty-service
+          image: jester69m/faculty-service:latest
+          ports:
+            - containerPort: 8001
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/database
+            - name: SPRING_DATASOURCE_USERNAME
+              value: user
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: password
+            - name: SERVICE_AUTH_BASE_URL
+              value: http://user-service:8000/api/v1/auth
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: my-docker-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: faculty-service
+spec:
+  selector:
+    app: faculty-service
+  ports:
+    - protocol: "TCP"
+      port: 8001
+      targetPort: 8001
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: jester69m/user-service:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: SPRING_R2DBC_URL
+              value: r2dbc:postgresql://postgres:5432/database
+            - name: SPRING_R2DBC_USERNAME
+              value: user
+            - name: SPRING_R2DBC_PASSWORD
+              value: password
+      imagePullSecrets:
+        - name: my-docker-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service  # A name for the service
+spec:
+  selector:
+    app: user-service  # Select pods with this label
+  ports:
+    - protocol: "TCP"
+      port: 8000
+      targetPort: 8000
+  type: NodePort
+---
+
