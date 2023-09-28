@@ -3,7 +3,10 @@ package com.recordsystem.facultyservice.service;
 import com.recordsystem.facultyservice.model.Faculty;
 import com.recordsystem.facultyservice.repository.FacultyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     public Faculty getFacultyById(Long id) {
-        return facultyRepository.getReferenceById(id);
+        return facultyRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Faculty not found"));
     }
 
     @Override
@@ -29,7 +32,7 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     public Faculty update(Long id, Faculty faculty) {
-        Faculty fac = facultyRepository.getReferenceById(faculty.getId());
+        Faculty fac = facultyRepository.findById(faculty.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Faculty not found"));
         fac.setId(faculty.getId());
         fac.setName(faculty.getName());
         fac.setDescription(faculty.getDescription());

@@ -1,0 +1,45 @@
+# postgres-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          env:
+            - name: POSTGRES_DB
+              value: database
+            - name: POSTGRES_USER
+              value: user
+            - name: TIME_ZONE
+              value: UTC
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-config
+                  key: password
+          ports:
+            - containerPort: 5432
+---
+# postgres-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+  type: NodePort

@@ -30,7 +30,7 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/**")
                         .hasAuthority("USER")) // TODO: change to admin
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+//                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

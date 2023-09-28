@@ -1,0 +1,44 @@
+# user-service-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: stasbukovskyi/user-service:1.0.0
+          ports:
+            - containerPort: 8000
+          env:
+            - name: SPRING_R2DBC_URL
+              value: r2dbc:postgresql://postgres-service/database
+            - name: SPRING_R2DBC_USERNAME
+              value: user
+            - name: SPRING_R2DBC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-config
+                  key: password
+---
+# user-service-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service-service
+spec:
+  selector:
+    app: user-service
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: NodePort

@@ -1,0 +1,46 @@
+# faculty-service-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: faculty-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: faculty-service
+  template:
+    metadata:
+      labels:
+        app: faculty-service
+    spec:
+      containers:
+        - name: faculty-service
+          image: stasbukovskyi/faculty-service:1.0.0
+          ports:
+            - containerPort: 8001
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres-service/database
+            - name: SPRING_DATASOURCE_USERNAME
+              value: user
+            - name: SERVICE_AUTH_BASE_URL
+              value: http://user-service-service:8000/api/v1/auth
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-config
+                  key: password
+---
+# faculty-service-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: faculty-service-service
+spec:
+  selector:
+    app: faculty-service
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8001
+  type: NodePort
