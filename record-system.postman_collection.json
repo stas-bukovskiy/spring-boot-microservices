@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "dae308b3-1ab0-4709-9b19-b231bd301b4f",
+		"_postman_id": "21a5f1bb-bb19-4bd6-9d81-cb469a7afb27",
 		"name": "record-system",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "27601285"
@@ -32,7 +32,7 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/api/v1/users/register"
+						"url": "{{user-service}}/api/v1/users/register"
 					},
 					"response": []
 				},
@@ -53,7 +53,7 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/api/v1/auth/login"
+						"url": "{{user-service}}/api/v1/auth/login"
 					},
 					"response": []
 				},
@@ -65,7 +65,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/api/v1/auth/verify/eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk1MzY4MTAwLCJleHAiOjE2OTUzNzI0MjB9.zeeYa0HgBR-KT7Kka9eU3CEX4k_VqwYZ7_DljyNaQlY"
+						"url": "{{user-service}}/api/v1/auth/verify/eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk1ODI4OTMyLCJleHAiOjE2OTU4MzMyNTJ9.esbY8Jlh_tKqNRSxdTISffzvk9-a_8nLUEMiF-72DXQ"
 					},
 					"response": []
 				}
@@ -105,7 +105,79 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8001/api/v1/faculty"
+						"url": "{{faculty-service}}/api/v1/faculty"
+					},
+					"response": []
+				},
+				{
+					"name": "get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{faculty-service}}/api/v1/faculty/3"
+					},
+					"response": []
+				},
+				{
+					"name": "create new",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"FI\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{faculty-service}}/api/v1/faculty"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"FI\",\r\n    \"description\" : \"changed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{faculty-service}}/api/v1/faculty/1"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{faculty-service}}/api/v1/faculty/3",
+							"host": [
+								"{{faculty-service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"faculty",
+								"3"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
 					},
 					"response": []
 				}
@@ -113,7 +185,7 @@
 			"auth": {
 				"type": "bearer",
 				"bearer": {
-					"token": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk1NjUzMjUyLCJleHAiOjE2OTU2NTc1NzJ9.pDYaLHrbtxE8Jb3InmpU8TZtKClCiuV2g-e2wWXA1eA"
+					"token": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk1OTI3NDE3LCJleHAiOjE2OTU5MzE3Mzd9.TJQbVbPlqRZFF5M1GKgzrZpNSiIqBFIPaDpsbsGmhBM"
 				}
 			},
 			"event": [
@@ -136,6 +208,36 @@
 					}
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "user-service",
+			"value": "http://127.0.0.1:13726"
+		},
+		{
+			"key": "faculty-service",
+			"value": "http://127.0.0.1:13720"
 		}
 	]
 }
