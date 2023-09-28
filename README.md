@@ -8,5 +8,6 @@
 cd path/to/root/spring-boot-microservices
 minikube start
 kubectl apply -f kube/
+minikube service --all
 
 ```
