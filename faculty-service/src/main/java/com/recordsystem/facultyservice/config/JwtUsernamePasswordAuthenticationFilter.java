@@ -8,43 +8,47 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Set;
 
 @Component
-@RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthService authService;
 
-    @Override
-    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        final String authHeader = request.getHeader("Authorization");
+    public JwtUsernamePasswordAuthenticationFilter(AuthService authService, AuthenticationManager authenticationManager) {
+        super(authenticationManager);
+        this.authService = authService;
+    }
 
-        if (!StringUtils.hasText(authHeader) || !StringUtils.startsWithIgnoreCase(authHeader, "Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        String token = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
+
+        UserResponse user;
+        try {
+            user = authService.authenticate(token);
+        } catch (UserNotFoundException e) {
+            throw new UsernameNotFoundException("invalid token");
         }
-        String jwt = authHeader.substring(7);
 
         SecurityContext context = SecurityContextHolder.createEmptyContext();
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(jwt, jwt);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(token, user, Set.of(new SimpleGrantedAuthority(user.getRole())));
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails((HttpServletRequest) request));
         context.setAuthentication(authToken);
         SecurityContextHolder.setContext(context);
 
-        filterChain.doFilter(request, response);
+        chain.doFilter(request, response);
     }
 }
