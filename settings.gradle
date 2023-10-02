@@ -1,2 +1,2 @@
 rootProject.name = 'spring-boot-microservices'
-include 'user-service', 'spring-boot-auth-starter', 'faculty-service'
+include 'user-service', 'faculty-service'

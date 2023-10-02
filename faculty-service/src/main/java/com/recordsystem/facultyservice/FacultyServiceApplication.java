@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication(scanBasePackages={"com.recordsystem.facultyservice"})
+@SpringBootApplication
 public class FacultyServiceApplication {
 
 	public static void main(String[] args) {

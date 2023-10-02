@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
 
-@SpringBootApplication()
+@SpringBootApplication
 public class UserServiceApplication {
 
     public static void main(String[] args) {
