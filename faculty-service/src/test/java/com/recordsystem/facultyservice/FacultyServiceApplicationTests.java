@@ -10,4 +10,8 @@ class FacultyServiceApplicationTests {
 	void contextLoads() {
 	}
 
+    @Test
+    void testSaveFaculty() {
+    }
+
 }

@@ -45,5 +45,4 @@ public class UserController {
         return userService.createUser(request)
                 .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.CREATED).build()));
     }
-
 }
