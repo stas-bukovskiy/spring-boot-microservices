@@ -36,6 +36,7 @@ public class FacultyController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Faculty> save(@RequestBody Faculty faculty) {
         return ResponseEntity.status(201).body(facultyService.save(faculty));
