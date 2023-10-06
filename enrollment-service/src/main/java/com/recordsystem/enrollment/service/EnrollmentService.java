@@ -1,17 +1,19 @@
 package com.recordsystem.enrollment.service;
 
 import com.recordsystem.enrollment.dto.EnrollmentRequest;
-import com.recordsystem.enrollment.entity.Course;
 import com.recordsystem.enrollment.entity.EnrollmentState;
-import com.recordsystem.enrollment.entity.Student;
 import com.recordsystem.enrollment.repository.CourseRepository;
 import com.recordsystem.enrollment.repository.StudentRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.core.publisher.ReplayProcessor;
 
+@Service
 @RequiredArgsConstructor
 public class EnrollmentService {
     @Value("${enrollment.state}")
@@ -29,14 +31,14 @@ public class EnrollmentService {
     }
 
     public void enrollOnCourse(EnrollmentRequest request) {
-        Student user = studentRepository.findById(request.userId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-        Course course = courseRepository.findById(request.courseId())
-                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-
-        course.getStudents().add(user);
-        courseRepository.save(course);
+        courseRepository.findById(request.courseId())
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found")))
+                .zipWith(studentRepository.findById(request.userId())
+                        .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"))))
+                .map(courseAndStudent -> {
+                    courseAndStudent.getT1().getStudents().add(courseAndStudent.getT2());
+                    return courseAndStudent.getT1();
+                }).subscribe(courseRepository::save);
     }
 
     public void setState(EnrollmentState state) {

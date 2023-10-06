@@ -3,11 +3,17 @@ package com.recordsystem.facultyservice.controller;
 import com.recordsystem.facultyservice.model.Faculty;
 import com.recordsystem.facultyservice.service.FacultyService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RequiredArgsConstructor

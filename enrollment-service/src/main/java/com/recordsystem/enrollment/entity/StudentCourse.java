@@ -5,21 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Table;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
-@Table("student")
-public class Student {
+@Table("student_course")
+public class StudentCourse {
     @Id
     private Long id;
-    private String name;
-
-    @Transient
-    private List<StudentCourse> studentCourses;
+    private Long courseId;
+    private Long studentId;
 }

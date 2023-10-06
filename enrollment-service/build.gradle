@@ -22,19 +22,15 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation project(path: ':faculty-service')
-    implementation project(path: ':user-service')
+    implementation 'org.postgresql:r2dbc-postgresql:1.0.2.RELEASE'
 
     compileOnly 'org.projectlombok:lombok'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-
-    runtimeOnly 'org.postgresql:postgresql'
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
@@ -42,8 +38,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation group: 'io.projectreactor', name: 'reactor-test', version: '3.5.10'
-
-
 
     implementation 'org.springframework.retry:spring-retry:2.0.3'
     implementation 'org.springframework:spring-aspects:6.0.12'
