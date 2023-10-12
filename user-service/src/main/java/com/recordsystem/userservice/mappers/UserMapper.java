@@ -16,5 +16,4 @@ public final class UserMapper {
                 .createdAt(user.getCreatedAt().getTime())
                 .build();
     }
-
 }

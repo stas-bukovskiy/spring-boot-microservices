@@ -7,6 +7,7 @@ import com.recordsystem.userservice.mappers.UserMapper;
 import com.recordsystem.userservice.models.UserRole;
 import com.recordsystem.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/users")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -45,5 +47,4 @@ public class UserController {
         return userService.createUser(request)
                 .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.CREATED).build()));
     }
-
 }
