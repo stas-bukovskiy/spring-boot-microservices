@@ -3,7 +3,6 @@ package com.recordsystem.notificationservice.config;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.support.MessagePropertiesConverter;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,13 +12,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfiguration {
 
-    @Value("${rabbitmq.queue.name}")
+    @Value("${rabbitmq.faculty.queue.name}")
     private String queue;
 
-    @Value("${rabbitmq.exchange.name}")
+    @Value("${rabbitmq.faculty.exchange.name}")
     private String exchange;
 
-    @Value("${rabbitmq.routing.key}")
+    @Value("${rabbitmq.faculty.routing.key}")
     private String routingKey;
 
     @Value("${rabbitmq.queue.json.name}")

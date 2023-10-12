@@ -6,11 +6,11 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RabbitMQConsumer {
+public class FacultyConsumer {
 
-    private static final Logger log = LoggerFactory.getLogger(RabbitMQConsumer.class);
+    private static final Logger log = LoggerFactory.getLogger(FacultyConsumer.class);
 
-    @RabbitListener(queues = "${rabbitmq.queue.name}")
+    @RabbitListener(queues = "${rabbitmq.faculty.queue.name}")
     public void consume(String message) {
         log.info(String.format("Received message: %s", message));
     }
