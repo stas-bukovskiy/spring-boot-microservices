@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.Mockito.when;
 
@@ -63,7 +64,7 @@ class FacultyControllerTest {
         when(facultyService.getFacultyById(facultyId)).thenReturn(faculty);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/faculty/{id}", facultyId)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(faculty.getId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(faculty.getName()));
@@ -76,7 +77,7 @@ class FacultyControllerTest {
         when(facultyService.getFacultyById(facultyId)).thenThrow(new RuntimeException("Faculty not found"));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/faculty/{id}", facultyId)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }

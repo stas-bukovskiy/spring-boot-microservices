@@ -5,14 +5,14 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @AllArgsConstructor
-public class Faculty {
+public class Discipline {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +21,16 @@ public class Faculty {
     private String name;
     private String description;
 
-//    @ToString.Exclude
-//    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private Set<Discipline> disciplines;
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Faculty faculty = (Faculty) o;
-        return getId() != null && Objects.equals(getId(), faculty.getId());
+        Discipline that = (Discipline) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override
