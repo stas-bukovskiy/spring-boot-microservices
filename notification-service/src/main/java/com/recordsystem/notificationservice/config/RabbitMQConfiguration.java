@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfiguration {
 
-    @Value("${rabbitmq.faculty.queue.name}")
+    @Value("${rabbitmq.queue.name}")
     private String queue;
 
-    @Value("${rabbitmq.faculty.exchange.name}")
+    @Value("${rabbitmq.exchange.name}")
     private String exchange;
 
-    @Value("${rabbitmq.faculty.routing.key}")
+    @Value("${rabbitmq.routing.key}")
     private String routingKey;
 
     @Value("${rabbitmq.queue.json.name}")

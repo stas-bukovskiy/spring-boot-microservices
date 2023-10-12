@@ -18,10 +18,10 @@ public class FacultyServiceImpl implements FacultyService{
     private final FacultyRepository facultyRepository;
     private final AmqpTemplate amqpTemplate;
 
-    @Value("${rabbitmq.faculty.queue.name}")
-    private String queue;
+    @Value("${rabbitmq.exchange.name}")
+    private String exchange;
 
-    @Value("${rabbitmq.faculty.routing.key}")
+    @Value("${rabbitmq.routing.key}")
     private String routingKey;
 
     @Override
@@ -36,7 +36,7 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     public Faculty save(Faculty faculty) {
-        amqpTemplate.convertAndSend(queue, routingKey, "Faculty " + faculty.getName() + " has been created");
+        amqpTemplate.convertAndSend(exchange, routingKey, "Faculty " + faculty.getName() + " has been created");
         return facultyRepository.save(faculty);
     }
 

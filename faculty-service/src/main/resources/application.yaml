@@ -34,11 +34,10 @@ server:
   port: 8001
 
 rabbitmq:
-  faculty:
-    queue:
-      name: faculty_service
+    exchange:
+      name: notification_service_exchange
     routing:
-      key: faculty_service_routing_key
+      key: notification_service_routing_key
 
 
 
