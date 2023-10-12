@@ -2,10 +2,10 @@ package com.recordsystem.facultyservice.service;
 
 import com.recordsystem.facultyservice.model.Faculty;
 import com.recordsystem.facultyservice.repository.FacultyRepository;
+import com.recordsystem.facultyservice.response.Email;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,13 +16,7 @@ import java.util.List;
 public class FacultyServiceImpl implements FacultyService{
 
     private final FacultyRepository facultyRepository;
-    private final AmqpTemplate amqpTemplate;
-
-    @Value("${rabbitmq.exchange.name}")
-    private String exchange;
-
-    @Value("${rabbitmq.routing.key}")
-    private String routingKey;
+    private final JmsTemplate jmsTemplate;
 
     @Override
     public List<Faculty> getAllFaculties() {
@@ -36,7 +30,7 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     public Faculty save(Faculty faculty) {
-        amqpTemplate.convertAndSend(exchange, routingKey, "Faculty " + faculty.getName() + " has been created");
+        jmsTemplate.convertAndSend("mailbox", new Email("a@mail.com","Faculty"+ faculty +" created"));
         return facultyRepository.save(faculty);
     }
 
