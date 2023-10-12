@@ -3,8 +3,9 @@ package com.recordsystem.facultyservice.service;
 import com.recordsystem.facultyservice.model.Faculty;
 import com.recordsystem.facultyservice.repository.FacultyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,6 +16,14 @@ import java.util.List;
 public class FacultyServiceImpl implements FacultyService{
 
     private final FacultyRepository facultyRepository;
+    private final AmqpTemplate amqpTemplate;
+
+    @Value("${rabbitmq.faculty.queue.name}")
+    private String queue;
+
+    @Value("${rabbitmq.faculty.routing.key}")
+    private String routingKey;
+
     @Override
     public List<Faculty> getAllFaculties() {
         return facultyRepository.findAll();
@@ -27,6 +36,7 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     public Faculty save(Faculty faculty) {
+        amqpTemplate.convertAndSend(queue, routingKey, "Faculty " + faculty.getName() + " has been created");
         return facultyRepository.save(faculty);
     }
 
