@@ -3,6 +3,7 @@ package com.recordsystem.facultyservice.service;
 import com.recordsystem.facultyservice.model.Faculty;
 import com.recordsystem.facultyservice.repository.FacultyRepository;
 import com.recordsystem.facultyservice.response.Email;
+import jakarta.jms.Topic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +22,9 @@ public class FacultyServiceImpl implements FacultyService{
     private final FacultyRepository facultyRepository;
     private final JmsTemplate jmsTemplate;
     @Value("${activemq.faculty.queue.name}")
-    private String queue;
+    private final Topic queue;
+    @Value("${activemq.faculty.delete}")
+    private String deleteQueue;
 
     @Override
     public List<Faculty> getAllFaculties() {
@@ -54,5 +57,6 @@ public class FacultyServiceImpl implements FacultyService{
     @Override
     public void delete(Long id) {
         facultyRepository.deleteById(id);
+        jmsTemplate.convertAndSend(deleteQueue, String.format("Faculty with id: %d deleted", id));
     }
 }

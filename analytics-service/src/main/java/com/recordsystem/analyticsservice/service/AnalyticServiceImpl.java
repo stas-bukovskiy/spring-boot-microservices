@@ -13,6 +13,11 @@ public class AnalyticServiceImpl implements AnalyticService {
         makeSomeAnalytic(message);
     }
 
+    @JmsListener(destination = "${activemq.faculty.delete}")
+    public void deletedFaculty(String message) {
+        log.info(message);
+    }
+
     public void makeSomeAnalytic(String data) {
         log.info(String.format("Performing analytic for: %s", data));
     }
