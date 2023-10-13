@@ -25,14 +25,24 @@ public class FacultyServiceImpl implements FacultyService{
     private String queue;
     @Value("${activemq.faculty.delete}")
     private String deleteQueue;
+    @Value("${activemq.faculty.get}")
+    private String getQueueFiltering;
 
     @Override
     public List<Faculty> getAllFaculties() {
+        jmsTemplate.convertAndSend(getQueueFiltering, "getAllFaculties - not - important", messagePostProcessor -> {
+            messagePostProcessor.setStringProperty("filterCriteria", "not-important");
+            return messagePostProcessor;
+        });
         return facultyRepository.findAll();
     }
 
     @Override
     public Faculty getFacultyById(Long id) {
+        jmsTemplate.convertAndSend(getQueueFiltering, "getOneFaculties - important", messagePostProcessor -> {
+            messagePostProcessor.setStringProperty("filterCriteria", "important");
+            return messagePostProcessor;
+        });
         return facultyRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Faculty not found"));
     }
 

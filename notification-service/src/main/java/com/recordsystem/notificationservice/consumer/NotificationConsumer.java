@@ -21,4 +21,9 @@ public class NotificationConsumer {
 
         service.sendNotification(email);
     }
+
+    @JmsListener(destination = "${activemq.faculty.get}", selector = "filterCriteria = 'important'")
+    public void getImportantMessages(String message) {
+        log.info(String.format("IMPORTANT!!! %s", message));
+    }
 }

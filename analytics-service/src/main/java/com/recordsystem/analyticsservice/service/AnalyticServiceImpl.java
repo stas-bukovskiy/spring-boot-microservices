@@ -18,8 +18,12 @@ public class AnalyticServiceImpl implements AnalyticService {
         log.info(message);
     }
 
-    public void makeSomeAnalytic(String data) {
+    private void makeSomeAnalytic(String data) {
         log.info(String.format("Performing analytic for: %s", data));
     }
 
+    @JmsListener(destination = "${activemq.faculty.get}", selector = "filterCriteria = 'not-important'")
+    public void getUnImportantMessages(String message) {
+        log.info(message);
+    }
 }

@@ -38,6 +38,7 @@ activemq:
     queue:
       name: "faculty_service"
     delete: "faculty_delete_service"
+    get: "faculty_get_service"
     routing:
       key: "faculty_service_routing_key"
 server:
