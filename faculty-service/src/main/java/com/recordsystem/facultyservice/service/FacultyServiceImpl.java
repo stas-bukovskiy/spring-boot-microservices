@@ -21,8 +21,8 @@ public class FacultyServiceImpl implements FacultyService{
 
     private final FacultyRepository facultyRepository;
     private final JmsTemplate jmsTemplate;
-    @Value("${activemq.faculty.queue.name}")
-    private final Topic queue;
+    @Value("${spring.activemq.topic-name}")
+    private String queue;
     @Value("${activemq.faculty.delete}")
     private String deleteQueue;
 
@@ -40,6 +40,7 @@ public class FacultyServiceImpl implements FacultyService{
     public Faculty save(Faculty faculty) {
         Email email = new Email("a@mail.com","Faculty"+ faculty +" created");
 //        log.info(String.format("queue: %s, for %s", queue, email));
+        jmsTemplate.convertAndSend(queue, email.toString());
         jmsTemplate.convertAndSend(queue, email.toString());
         return facultyRepository.save(faculty);
     }
