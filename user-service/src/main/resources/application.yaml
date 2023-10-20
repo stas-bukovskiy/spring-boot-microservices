@@ -30,6 +30,10 @@ spring:
     broker-url: tcp://localhost:61616
     user: admin
     password: admin
+  boot:
+    admin:
+      client:
+        url: "http://localhost:8002/admin"
 management:
   endpoints:
     web:
