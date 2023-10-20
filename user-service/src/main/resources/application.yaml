@@ -30,6 +30,14 @@ spring:
     broker-url: tcp://localhost:61616
     user: admin
     password: admin
-
-
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+    shutdown:
+      enabled: true
