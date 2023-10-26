@@ -29,6 +29,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    //implementation 'pl.project13.maven:git-commit-id-plugin:4.9.10'
+    implementation 'de.codecentric:spring-boot-admin-starter-client:3.1.7'
 
     compileOnly 'io.projectreactor:reactor-tools'
     compileOnly 'org.projectlombok:lombok'

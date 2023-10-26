@@ -1,0 +1,17 @@
+spring:
+  boot:
+    admin:
+      context-path: /admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+    shutdown:
+      enabled: true
+server:
+  port: 8002
