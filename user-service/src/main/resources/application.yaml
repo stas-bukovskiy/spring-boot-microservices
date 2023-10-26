@@ -26,5 +26,10 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+
 
 
