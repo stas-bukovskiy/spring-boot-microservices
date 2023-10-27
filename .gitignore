@@ -3,3 +3,11 @@
 .bin
 .lock
 .probe
+admin-service/build
+analytics-service/build
+enrollment-service/build
+faculty-service/build
+notification-service/build
+user-service/build
+logs
+

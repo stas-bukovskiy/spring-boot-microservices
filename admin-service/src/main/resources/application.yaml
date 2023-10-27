@@ -15,3 +15,8 @@ management:
       enabled: true
 server:
   port: 8002
+
+logging:
+  file:
+    path: /home/stas/projects/spring-boot-microservices/logs/spring-boot-microservices.log
+    name: spring-boot-microservices.log

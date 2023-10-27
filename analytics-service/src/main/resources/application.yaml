@@ -30,5 +30,11 @@ server:
   port: 8005
 
 
+logging:
+  file:
+    path: /home/stas/projects/spring-boot-microservices/logs/spring-boot-microservices.log
+    name: spring-boot-microservices.log
+
+
 
 

@@ -10,6 +10,10 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+logging:
+  file:
+    path: /home/stas/projects/spring-boot-microservices/logs/spring-boot-microservices.log
+    name: spring-boot-microservices.log
 ---
 spring:
   config:
@@ -24,7 +28,7 @@ spring:
     defer-datasource-initialization: true
   sql:
     init:
-       mode: always
+      mode: always
   activemq:
     broker-url: tcp://localhost:61616
     user: admin
