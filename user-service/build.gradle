@@ -32,6 +32,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     //implementation 'pl.project13.maven:git-commit-id-plugin:4.9.10'
     implementation 'de.codecentric:spring-boot-admin-starter-client:3.1.7'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.3'
 
     compileOnly 'io.projectreactor:reactor-tools'
     compileOnly 'org.projectlombok:lombok'

@@ -1,11 +1,9 @@
 spring:
+  application:
+    name: "admin_service"
   boot:
     admin:
       context-path: /admin
-  security:
-    user:
-      name: admin
-      password: admin
 management:
   endpoints:
     web:
@@ -17,5 +15,9 @@ management:
       show-components: always
     shutdown:
       enabled: true
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8761/eureka/"
 server:
   port: 8002

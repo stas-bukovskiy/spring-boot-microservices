@@ -4,4 +4,5 @@ include 'enrollment-service'
 include 'analytics-service'
 include 'notification-service'
 include 'admin-service'
+include 'eureka-service'
 

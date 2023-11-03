@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: "analytics_service"
   activemq:
     broker-url: tcp://localhost:61616
     user: admin
@@ -26,6 +28,10 @@ management:
       show-components: always
     shutdown:
       enabled: true
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8761/eureka/"
 server:
   port: 8005
 
