@@ -1,11 +1,19 @@
 spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+  boot:
+    admin:
+      client:
+        url: "http://localhost:8002/admin"
   profiles:
     active: dev
   main:
     allow-bean-definition-overriding: true
   application:
     name: "analytics-service"
-
+    
 activemq:
   faculty:
     queue:
@@ -25,6 +33,13 @@ management:
       show-components: always
     shutdown:
       enabled: true
+      
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8761/eureka/"
+server:
+  port: 8005
 
 ---
 spring:

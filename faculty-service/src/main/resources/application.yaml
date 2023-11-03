@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: "faculty_service"
   profiles:
     active: dev
   docker:
@@ -64,3 +66,11 @@ management:
       show-components: always
     shutdown:
       enabled: true
+      
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8761/eureka/"
+      
+server:
+  port: 8001

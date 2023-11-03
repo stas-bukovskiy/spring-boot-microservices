@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: "user-service"
   profiles:
     active: dev
   docker:
@@ -42,4 +44,7 @@ management:
       show-components: always
     shutdown:
       enabled: true
-
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8761/eureka/"
