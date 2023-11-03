@@ -2,6 +2,10 @@ spring:
   boot:
     admin:
       context-path: /admin
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
 management:
   endpoints:
     web:
@@ -13,10 +17,12 @@ management:
       show-components: always
     shutdown:
       enabled: true
-server:
-  port: 8002
 
-logging:
-  file:
-    path: /home/stas/projects/spring-boot-microservices/logs/spring-boot-microservices.log
-    name: spring-boot-microservices.log
+---
+spring:
+  application:
+    name: admin-service
+  config:
+    import: configserver:http://root:s3cr3t@localhost:8888
+    activate:
+      on-profile: dev

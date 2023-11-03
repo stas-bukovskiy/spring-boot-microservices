@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         UserResponse user;
         try {
             user = authService.authenticate(jwt);
-        } catch (UserNotFoundException e) {
+        } catch (UserNotFoundException | HttpClientErrorException e) {
             filterChain.doFilter(request, response);
             return;
         }

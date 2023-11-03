@@ -4,24 +4,20 @@ spring:
   docker:
     compose:
       enabled: false
+  application:
+    name: user-service
+
+  main:
+    allow-bean-definition-overriding: true
 token:
   signing:
     key: ahtyiY4ky67ovr68w8846Gr67Ggf6HhfnkOPnsodosaOPAwpmwqppmcsa01242dpwsazk
   expiration: 4320000ms
 
-user-service:
-  admin:
-    email: admin@mail.com
-    password: adminpassword
-
-logging:
-  file:
-    path: /home/stas/projects/spring-boot-microservices/logs/spring-boot-microservices.log
-    name: spring-boot-microservices.log
-
 ---
 spring:
   config:
+    import: configserver:http://root:s3cr3t@localhost:8888
     activate:
       on-profile: dev
   docker:
@@ -35,10 +31,6 @@ spring:
     broker-url: tcp://localhost:61616
     user: admin
     password: admin
-  boot:
-    admin:
-      client:
-        url: "http://localhost:8002/admin"
 management:
   endpoints:
     web:
