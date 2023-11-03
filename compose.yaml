@@ -16,15 +16,6 @@ services:
     labels:
       org.springframework.boot.readiness-check.tcp.disable: true
 
-#  rabbitmq:
-#    image: rabbitmq:management
-#    container_name: rabbitmq
-#    environment:
-#      - RABBITMQ_DEFAULT_USER=guest
-#      - RABBITMQ_DEFAULT_PASS=guest
-#    ports:
-#      - "5672:5672"
-#      - "15672:15672"
   activemq:
     image: rmohr/activemq
     container_name: activemq

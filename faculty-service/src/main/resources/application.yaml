@@ -12,30 +12,38 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+  main:
+    allow-bean-definition-overriding: true
+
 ---
 spring:
+  application:
+    name: faculty-service
   config:
+    import: configserver:http://root:s3cr3t@localhost:8888
     activate:
       on-profile: dev
   docker:
     compose:
-      enabled: true
+      enabled: false
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     defer-datasource-initialization: true
+    show-sql: true
+    generate-ddl: true
   sql:
     init:
-       mode: always
+      mode: never
   activemq:
     broker-url: tcp://localhost:61616
     user: admin
     password: admin
     topic-name: "faculty_service"
-  boot:
-    admin:
-      client:
-        url: "http://localhost:8002/admin"
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5436/database
+    username: user1
+    password: password
 service:
   auth:
     base-url: 'http://localhost:8080/api/v1/auth'
@@ -58,13 +66,11 @@ management:
       show-components: always
     shutdown:
       enabled: true
+      
 eureka:
   client:
     service-url:
       defaultZone: "http://localhost:8761/eureka/"
+      
 server:
   port: 8001
-
-
-
-

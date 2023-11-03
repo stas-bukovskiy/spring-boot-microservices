@@ -5,4 +5,5 @@ include 'analytics-service'
 include 'notification-service'
 include 'admin-service'
 include 'eureka-service'
+include 'config'
 

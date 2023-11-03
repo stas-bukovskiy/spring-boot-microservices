@@ -1,9 +1,11 @@
 spring:
-  application:
-    name: "admin_service"
   boot:
     admin:
       context-path: /admin
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
 management:
   endpoints:
     web:
@@ -21,3 +23,12 @@ eureka:
       defaultZone: "http://localhost:8761/eureka/"
 server:
   port: 8002
+
+---
+spring:
+  application:
+    name: admin-service
+  config:
+    import: configserver:http://root:s3cr3t@localhost:8888
+    activate:
+      on-profile: dev

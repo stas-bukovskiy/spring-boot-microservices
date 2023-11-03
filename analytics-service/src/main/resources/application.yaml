@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: "analytics_service"
   activemq:
     broker-url: tcp://localhost:61616
     user: admin
@@ -9,6 +7,13 @@ spring:
     admin:
       client:
         url: "http://localhost:8002/admin"
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: "analytics-service"
+    
 activemq:
   faculty:
     queue:
@@ -28,6 +33,7 @@ management:
       show-components: always
     shutdown:
       enabled: true
+      
 eureka:
   client:
     service-url:
@@ -35,6 +41,15 @@ eureka:
 server:
   port: 8005
 
-
-
-
+---
+spring:
+  application:
+    name: analytics-service
+  config:
+    import: configserver:http://root:s3cr3t@localhost:8888
+    activate:
+      on-profile: dev
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
