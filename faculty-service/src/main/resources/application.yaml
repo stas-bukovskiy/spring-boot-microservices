@@ -12,10 +12,11 @@ spring:
 
 logging:
   file:
-    path: /home/stas/projects/spring-boot-microservices/logs/spring-boot-microservices.log
-    name: spring-boot-microservices.log
+    name : spring-boot-microservices.log
 ---
 spring:
+  application:
+    name: faculty-service
   config:
     activate:
       on-profile: dev

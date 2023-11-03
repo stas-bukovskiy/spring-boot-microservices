@@ -32,8 +32,8 @@ server:
 
 logging:
   file:
-    path: /home/stas/projects/spring-boot-microservices/logs/spring-boot-microservices.log
-    name: spring-boot-microservices.log
+    path: C:/Users/Nazar/IdeaProjects/SpringBoot_2y/microservices/spring-boot-microservices/logs
+    name : spring-boot-microservices.log
 
 
 
