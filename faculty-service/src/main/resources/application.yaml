@@ -17,8 +17,6 @@ spring:
 
 ---
 spring:
-  application:
-    name: faculty-service
   config:
     import: configserver:http://root:s3cr3t@localhost:8888
     activate:
@@ -66,11 +64,15 @@ management:
       show-components: always
     shutdown:
       enabled: true
-      
+
 eureka:
   client:
     service-url:
       defaultZone: "http://localhost:8761/eureka/"
-      
+
 server:
   port: 8001
+
+
+
+

@@ -4,6 +4,7 @@ import com.recordsystem.facultyservice.model.Faculty;
 import com.recordsystem.facultyservice.service.FacultyService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -21,13 +22,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/faculty")
+@Slf4j
 public class FacultyController {
 
     private final FacultyService facultyService;
-
+    int i = 0;
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Faculty>> getAllFaculties() {
+        log.info("Request number {}", ++i);
         return ResponseEntity.ok(facultyService.getAllFaculties());
     }
 

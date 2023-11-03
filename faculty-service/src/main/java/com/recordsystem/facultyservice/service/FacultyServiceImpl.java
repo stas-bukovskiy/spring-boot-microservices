@@ -3,7 +3,6 @@ package com.recordsystem.facultyservice.service;
 import com.recordsystem.facultyservice.model.Faculty;
 import com.recordsystem.facultyservice.repository.FacultyRepository;
 import com.recordsystem.facultyservice.response.Email;
-import jakarta.jms.Topic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
