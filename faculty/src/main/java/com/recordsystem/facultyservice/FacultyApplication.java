@@ -2,13 +2,12 @@ package com.recordsystem.facultyservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.jms.annotation.EnableJms;
 
 @SpringBootApplication
-public class FacultyServiceApplication {
+public class FacultyApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FacultyServiceApplication.class, args);
+		SpringApplication.run(FacultyApplication.class, args);
 	}
 
 }

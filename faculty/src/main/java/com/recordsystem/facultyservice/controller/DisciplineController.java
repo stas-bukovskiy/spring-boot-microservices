@@ -1,21 +1,23 @@
 package com.recordsystem.facultyservice.controller;
 
 import com.recordsystem.facultyservice.model.Discipline;
-import com.recordsystem.facultyservice.model.Faculty;
 import com.recordsystem.facultyservice.service.DisciplineService;
-import com.recordsystem.facultyservice.service.FacultyService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -45,19 +47,16 @@ public class DisciplineController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Discipline> save(@RequestBody Discipline discipline) {
         return ResponseEntity.status(201).body(disciplineService.save(discipline));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Discipline> update(@PathVariable Long id, @RequestBody Discipline discipline) {
         return ResponseEntity.ok(disciplineService.update(id, discipline));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         disciplineService.delete(id);
