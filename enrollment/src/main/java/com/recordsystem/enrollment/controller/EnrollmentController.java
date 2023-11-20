@@ -1,15 +1,11 @@
 package com.recordsystem.enrollment.controller;
 
-import com.netflix.discovery.EurekaClient;
 import com.recordsystem.enrollment.dto.EnrollmentRequest;
-import com.recordsystem.enrollment.service.EnrollmentService;
 import com.recordsystem.enrollment.entity.EnrollmentState;
-import lombok.RequiredArgsConstructor;
+import com.recordsystem.enrollment.service.EnrollmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
@@ -22,8 +18,6 @@ public class EnrollmentController {
 
     private final RestTemplate restTemplate;
 
-//    @Autowired
-//    private EurekaClient eurekaClient;
 
     @Autowired
     public EnrollmentController(EnrollmentService enrollmentService, RestTemplate restTemplate) {
@@ -42,7 +36,6 @@ public class EnrollmentController {
     }
 
     @PostMapping("/state")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public void setState(@RequestBody String state) {
         enrollmentService.setState(EnrollmentState.valueOf(state));
     }
