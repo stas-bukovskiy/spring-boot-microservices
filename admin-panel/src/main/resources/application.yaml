@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: admin-panel
+
+  profiles:
+    active: dev
+
+  boot:
+    admin:
+      context-path: /admin
+
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: 8002
+
+---
+spring:
+  config:
+    import:
+      - file:.env[.properties]
+      - configserver:http://root:s3cr3t@localhost:8888
+    activate:
+      on-profile: dev

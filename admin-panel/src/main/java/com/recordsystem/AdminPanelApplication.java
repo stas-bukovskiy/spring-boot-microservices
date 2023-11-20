@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableAdminServer
 @SpringBootApplication
-public class AdminServiceApplication {
+public class AdminPanelApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AdminServiceApplication.class, args);
+        SpringApplication.run(AdminPanelApplication.class, args);
     }
 }
