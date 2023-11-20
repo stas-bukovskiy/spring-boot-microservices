@@ -1,6 +1,5 @@
 package com.recordsystem.facultyservice.controller;
 
-import com.recordsystem.facultyservice.config.JwtAuthenticationFilter;
 import com.recordsystem.facultyservice.model.Faculty;
 import com.recordsystem.facultyservice.service.FacultyService;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +16,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static org.mockito.Mockito.when;
 
