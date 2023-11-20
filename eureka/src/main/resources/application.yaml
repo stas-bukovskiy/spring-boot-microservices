@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: eureka
+  profiles:
+    active: dev
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+---
+spring:
+  config:
+    import:
+      - file:.env[.properties]
+      - configserver:http://root:s3cr3t@localhost:8888
+    activate:
+      on-profile: dev

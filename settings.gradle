@@ -1,7 +1,6 @@
 rootProject.name = 'spring-boot-microservices'
-include 'auth', 'faculty', 'enrollment', 'analytics', 'admin-panel'
+include 'auth', 'faculty', 'enrollment', 'analytics', 'admin-panel', 'eureka'
 include 'notification-service'
-include 'eureka-service'
 include 'config'
 include 'gateway-service'
 
