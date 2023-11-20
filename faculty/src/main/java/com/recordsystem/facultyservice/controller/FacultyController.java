@@ -7,7 +7,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -34,7 +32,7 @@ public class FacultyController {
     private final FacultyService facultyService;
     int i = 0;
 
-    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Faculty>> getAllFaculties() {
         log.info("Request number {}", ++i);
         return ResponseEntity.ok(facultyService.getAllFaculties());
@@ -69,19 +67,4 @@ public class FacultyController {
         return ResponseEntity.ok("Deleted successfully");
     }
 
-    @GetMapping(value = "/downloadSchedule", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<byte[]> downloadSchedule() throws IOException, IOException {
-
-        Resource resource = new ClassPathResource("/schedule/schedule.csv");
-
-        byte[] fileBytes = Files.readAllBytes(resource.getFile().toPath());
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=schedule.csv");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(fileBytes);
-    }
 }

@@ -22,10 +22,6 @@ public class Faculty {
     private String name;
     private String description;
 
-//    @ToString.Exclude
-//    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private Set<Discipline> disciplines;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
