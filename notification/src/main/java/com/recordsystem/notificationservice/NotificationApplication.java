@@ -2,13 +2,12 @@ package com.recordsystem.notificationservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.jms.annotation.EnableJms;
 
 @SpringBootApplication
-public class NotificationServiceApplication {
+public class NotificationApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NotificationServiceApplication.class, args);
+		SpringApplication.run(NotificationApplication.class, args);
 	}
 
 }
