@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: auth
+
+  profiles:
+    active: dev
+
+  docker:
+    compose:
+      enabled: false
+
+  main:
+    allow-bean-definition-overriding: true
+
+
+token:
+  signing:
+    key: ahtyiY4ky67ovr68w8846Gr67Ggf6HhfnkOPnsodosaOPAwpmwqppmcsa01242dpwsazk
+  expiration: 4320000ms
+
+---
+spring:
+  config:
+    import:
+      - file:.env[.properties]
+      - configserver:http://root:s3cr3t@localhost:8888
+    activate:
+      on-profile: dev
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+    shutdown:
+      enabled: true

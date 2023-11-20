@@ -10,4 +10,5 @@ faculty-service/build
 notification-service/build
 user-service/build
 logs
+.env
 

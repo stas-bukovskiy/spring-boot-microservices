@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgres
+    image: 'postgres:15'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - TIME_ZONE=${TIME_ZONE}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - db:/data/db
+    labels:
+      org.springframework.boot.readiness-check.tcp.disable: true
+
+  activemq:
+    image: rmohr/activemq
+    container_name: activemq
+    ports:
+      - ${ACTIVEMQ_WEB_PORT}:8161       # broker (admin:adminactivemq)(amq:amq)
+      - ${ACTIVEMQ_BROKER_PORT}:61616   # web    http://boot2docker:8161/admin (admin:admin)
+
+volumes:
+  db:
+    driver:
+      local
