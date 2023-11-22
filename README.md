@@ -1,9 +1,12 @@
 # spring-boot-microservices
 ## Start on local machine
+1. Copy '.env.example' and rename it to '.env'
+2. Start config server
+3. Start one or multiple services by gradle command or with IDE
 ```bash
     gradle bootRun
 ```
-Or just start via IntelliJ UI
+
 
 ## Start as docker containers
 ```bash
