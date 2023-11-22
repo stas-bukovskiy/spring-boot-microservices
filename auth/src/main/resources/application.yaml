@@ -22,8 +22,6 @@ grpc:
   server:
     reflection:
       enabled: true
-  client:
-    authority:
 ---
 spring:
   config:
