@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Mono<User> getUserById(String id) {
+    public Mono<User> getUserById(Long id) {
         return userRepository.findById(id)
                 .switchIfEmpty(Mono.error(new UserNotFoundException("Not found user with id <%s>", id)));
     }
@@ -43,6 +43,8 @@ public class UserServiceImpl implements UserService {
                     else {
                         User userToCreate = User.builder()
                                 .email(request.getUsername())
+                                .firstName(request.getFirstName())
+                                .lastName(request.getFirstName())
                                 .password(passwordEncoder.encode(request.getPassword()))
                                 .role(request.getRole())
                                 .createdAt(new Timestamp(System.currentTimeMillis()))

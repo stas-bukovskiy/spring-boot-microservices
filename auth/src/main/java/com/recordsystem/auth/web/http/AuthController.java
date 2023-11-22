@@ -1,4 +1,4 @@
-package com.recordsystem.auth.controllers;
+package com.recordsystem.auth.web.http;
 
 import com.recordsystem.auth.dto.AuthenticationRequest;
 import com.recordsystem.auth.dto.UserDto;

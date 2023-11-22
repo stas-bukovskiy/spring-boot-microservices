@@ -5,7 +5,7 @@ import com.recordsystem.auth.models.User;
 import reactor.core.publisher.Mono;
 
 public interface UserService {
-    Mono<User> getUserById(String id);
+    Mono<User> getUserById(Long id);
 
     Mono<User> getUserByUsername(String username);
 

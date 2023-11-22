@@ -11,6 +11,8 @@ public final class UserMapper {
     public static UserDto of(User user) {
         return UserDto.builder()
                 .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
                 .username(user.getUsername())
                 .role(user.getRole().name())
                 .createdAt(user.getCreatedAt().getTime())

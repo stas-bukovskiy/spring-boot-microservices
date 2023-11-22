@@ -1,56 +1,49 @@
 package com.recordsystem.enrollment.controller;
 
 import com.recordsystem.enrollment.dto.EnrollmentRequest;
+import com.recordsystem.enrollment.entity.Enrollment;
 import com.recordsystem.enrollment.entity.EnrollmentState;
 import com.recordsystem.enrollment.service.EnrollmentService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-@RestController
-@RequestMapping("/api/v1/enrollment")
 @Slf4j
+@RequiredArgsConstructor
+@RestController
+@RequestMapping(value = "/api/v1/enrollment", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EnrollmentController {
+
     private final EnrollmentService enrollmentService;
 
-    private final RestTemplate restTemplate;
-
-
-    @Autowired
-    public EnrollmentController(EnrollmentService enrollmentService, RestTemplate restTemplate) {
-        this.enrollmentService = enrollmentService;
-        this.restTemplate = restTemplate;
-    }
-
     @GetMapping("/state")
-    public Flux<ResponseEntity<String>> getState() {
+    public Mono<String> getState() {
         return enrollmentService.enrollmentState()
                 .map(EnrollmentState::name)
                 .map(body -> {
                     log.info("get state {}", body);
-                    return ResponseEntity.ok(body);
-                });
+                    return body;
+                })
+                .last();
     }
 
-    @PostMapping("/state")
+    @PostMapping(value = "/state", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void setState(@RequestBody String state) {
         enrollmentService.setState(EnrollmentState.valueOf(state));
     }
 
-    @PostMapping("/enroll")
-    public void enrollOnCourse(@RequestBody EnrollmentRequest request) {
-        enrollmentService.enrollOnCourse(request);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Enrollment> enrollOnCourse(@RequestBody @Validated EnrollmentRequest request) {
+        return enrollmentService.enrollOnCourse(request);
     }
 
-//    @GetMapping(value = "/facultiesList", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String getFacultiesList() {
-//        String facultyServiceURL = "http://facultyService/api/v1/faculty/getAll";
-//
-////        return eurekaClient.getApplication("faculty-service").getName();
-//        return restTemplate.getForObject(facultyServiceURL, String.class);
-//    }
+    @DeleteMapping("/{id}")
+    public Mono<Void> enrollOnCourse(@PathVariable Long id) {
+        return enrollmentService.removeEnrolment(id);
+    }
+
 }
 

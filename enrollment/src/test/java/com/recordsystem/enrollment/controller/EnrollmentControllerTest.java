@@ -67,7 +67,7 @@ class EnrollmentControllerTest {
 
     @Test
     void testEnrollOnCourse() {
-        EnrollmentRequest request = new EnrollmentRequest("John Doe", 101L);
+        EnrollmentRequest request = new EnrollmentRequest(12L, 101L);
         doNothing().when(enrollmentService).enrollOnCourse(request);
 
         webTestClient.post()

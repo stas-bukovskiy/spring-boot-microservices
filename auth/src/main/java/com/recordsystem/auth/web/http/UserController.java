@@ -1,4 +1,4 @@
-package com.recordsystem.auth.controllers;
+package com.recordsystem.auth.web.http;
 
 
 import com.recordsystem.auth.dto.CreateUserRequest;
@@ -27,7 +27,7 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<UserDto>> getUserById(@PathVariable String id) {
+    public Mono<ResponseEntity<UserDto>> getUserById(@PathVariable Long id) {
         return userService.getUserById(id)
                 .map(UserMapper::of)
                 .map(ResponseEntity::ok);

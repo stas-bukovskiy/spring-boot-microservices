@@ -25,7 +25,7 @@ public class InitialAdminUserSetup implements ApplicationListener<ApplicationRea
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        userService.createUser(new CreateUserRequest(adminEmail, adminPassword, UserRole.ADMIN))
+        userService.createUser(new CreateUserRequest(adminEmail, adminPassword, "","", UserRole.ADMIN))
                 .onErrorComplete()
                 .subscribe((v) -> log.info("admin <{}> was created", adminEmail));
     }
