@@ -18,10 +18,6 @@ token:
     key: ahtyiY4ky67ovr68w8846Gr67Ggf6HhfnkOPnsodosaOPAwpmwqppmcsa01242dpwsazk
   expiration: 4320000ms
 
-grpc:
-  server:
-    reflection:
-      enabled: true
 ---
 spring:
   config:

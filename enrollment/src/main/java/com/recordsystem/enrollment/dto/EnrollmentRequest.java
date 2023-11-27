@@ -7,7 +7,7 @@ public record EnrollmentRequest(
         @JsonProperty("student_id")
         @NotNull(message = "student_id is mandatory")
         Long studentId,
-        @JsonProperty("course_id")
-        @NotNull(message = "course_id is mandatory")
-        Long courseId) {
+        @JsonProperty("discipline_id")
+        @NotNull(message = "discipline_id is mandatory")
+        Long disciplineId) {
 }

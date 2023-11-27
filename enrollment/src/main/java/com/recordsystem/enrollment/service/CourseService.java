@@ -1,7 +1,9 @@
 package com.recordsystem.enrollment.service;
 
-import reactor.core.publisher.Mono;
+import com.recordsystem.enrollment.dto.DisciplineDto;
+
+import java.util.Optional;
 
 public interface CourseService {
-    Mono<Boolean> existsById(Long courseId);
+    Optional<DisciplineDto> getDisciplineById(Long discipleID);
 }

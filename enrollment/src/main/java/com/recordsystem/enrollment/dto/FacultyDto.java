@@ -5,19 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudentDto {
-
+public class FacultyDto {
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private UserRole role;
-    private Timestamp createdAt;
-
+    private String name;
+    private String description;
 }

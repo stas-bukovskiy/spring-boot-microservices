@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package recordsystem.user.v1;
+
+option java_package = "com.recordsystem.faculty.v1";
+option java_multiple_files = true;
+
+service DisciplineService {
+  rpc get(DisciplineRequest) returns (Discipline);
+}
+
+message DisciplineRequest {
+  int64 id = 1;
+}
+
+message Discipline {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  Faculty faculty = 4;
+}
+
+message Faculty {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+

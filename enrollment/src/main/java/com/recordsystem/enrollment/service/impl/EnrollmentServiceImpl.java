@@ -1,6 +1,7 @@
 package com.recordsystem.enrollment.service.impl;
 
 import com.recordsystem.enrollment.dto.EnrollmentRequest;
+import com.recordsystem.enrollment.dto.StudentDto;
 import com.recordsystem.enrollment.entity.Enrollment;
 import com.recordsystem.enrollment.entity.EnrollmentState;
 import com.recordsystem.enrollment.service.CourseService;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -37,23 +39,43 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         });
     }
 
+    @Transactional
     public Mono<Enrollment> enrollOnCourse(EnrollmentRequest request) {
-        return courseService.existsById(request.courseId())
+        return enrollmentRepository.existsByCourseIdAndStudentId(request.disciplineId(), request.studentId())
                 .handle((isExist, sink) -> {
-                    if (!isExist) {
-                        sink.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+                    if (isExist) {
+                        sink.error(new ResponseStatusException(HttpStatus.CONFLICT, "Student already enrolled on this discipline"));
                     } else {
-                        sink.next(isExist);
+                        sink.next(false);
                     }
                 })
-                .map(isExist -> studentService.getStudentById(request.studentId()))
-                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found")))
-                .map(ignored -> Enrollment.builder()
-                        .courseId(request.courseId())
-                        .studentId(request.studentId())
-                        .build())
+                .thenReturn(studentService.getStudentById(request.studentId()))
+                .handle((student, sink) -> {
+                    if (student.isPresent()) {
+                        sink.next(student.get());
+                    } else {
+                        sink.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found"));
+                    }
+                })
+                .cast(StudentDto.class)
+                .zipWith(Mono.fromCallable(() -> {
+                    var discipline = courseService.getDisciplineById(request.disciplineId());
+                    if (discipline.isPresent()) {
+                        return discipline.get();
+                    } else {
+                        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Discipline not found");
+                    }
+                }))
+                .map(tuple -> {
+                    // TODO add notification event sending
+                    return Enrollment.builder()
+                            .studentId(request.studentId())
+                            .courseId(request.disciplineId())
+                            .build();
+                })
                 .flatMap(enrollmentRepository::save);
     }
+
 
     @Override
     public Mono<Void> removeEnrolment(Long id) {
