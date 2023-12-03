@@ -11,7 +11,10 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
-
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
 
 token:
   signing:
@@ -27,19 +30,10 @@ spring:
     activate:
       on-profile: dev
 
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-      show-components: always
-    shutdown:
-      enabled: true
+---
+spring:
+  config:
+    import:
+      - configserver:${CONFIG_URL}
+    activate:
+      on-profile: docker

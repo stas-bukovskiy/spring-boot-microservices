@@ -12,9 +12,6 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-server:
-  port: 8002
-
 ---
 spring:
   config:
@@ -23,3 +20,11 @@ spring:
       - configserver:http://root:s3cr3t@localhost:8888
     activate:
       on-profile: dev
+
+---
+spring:
+  config:
+    import:
+      - configserver:${CONFIG_URL}
+    activate:
+      on-profile: docker

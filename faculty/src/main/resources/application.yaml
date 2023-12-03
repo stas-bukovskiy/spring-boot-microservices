@@ -7,6 +7,8 @@ spring:
 
   jpa:
     generate-ddl: true
+    defer-datasource-initialization: true
+    show-sql: true
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -17,23 +19,6 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
----
-spring:
-  config:
-    import:
-      - file:.env[.properties]
-      - configserver:http://root:s3cr3t@localhost:8888
-    activate:
-      on-profile: dev
-
-  jpa:
-    defer-datasource-initialization: true
-    show-sql: true
-    generate-ddl: true
-  sql:
-    init:
-      mode: never
-
 activemq:
   faculty:
     queue:
@@ -43,6 +28,19 @@ activemq:
     routing:
       key: "faculty_service_routing_key"
 
+---
+spring:
+  config:
+    import:
+      - file:.env[.properties]
+      - configserver:http://root:s3cr3t@localhost:8888
+    activate:
+      on-profile: dev
 
-
-
+---
+spring:
+  config:
+    import:
+      - configserver:${CONFIG_URL}
+    activate:
+      on-profile: docker

@@ -11,3 +11,11 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+
+---
+spring:
+  config:
+    import:
+      - configserver:${CONFIG_URL}
+    activate:
+      on-profile: docker

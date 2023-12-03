@@ -17,6 +17,14 @@ spring:
     activate:
       on-profile: dev
 
+---
+spring:
+  config:
+    import:
+      - configserver:${CONFIG_URL}
+    activate:
+      on-profile: docker
+
 activemq:
   faculty:
     queue:

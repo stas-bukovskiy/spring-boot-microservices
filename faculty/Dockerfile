@@ -1,12 +1,9 @@
 FROM openjdk:17-jdk-alpine3.13
-
 ENV SERVER_PORT 8001
+ENV GRPC_SERVER_PORT 9001
 ENV SPRING_PROFILES_ACTIVE docker
-
-COPY build/libs/faculty-service-0.0.1.jar /app/
-
+COPY build/libs/faculty-0.0.1.jar /app/faculty.jar
 WORKDIR /app
-
 EXPOSE 8001
-
-CMD ["java", "-jar", "faculty-service-0.0.1.jar"]
+EXPOSE 9001
+CMD ["java", "-jar", "faculty.jar"]

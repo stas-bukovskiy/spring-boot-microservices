@@ -1,0 +1,211 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgres
+    image: 'postgres:15'
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - TIME_ZONE=${TIME_ZONE}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - db:/data/db
+    labels:
+      org.springframework.boot.readiness-check.tcp.disable: true
+
+  activemq:
+    image: rmohr/activemq
+    container_name: activemq
+    ports:
+      - ${ACTIVEMQ_WEB_PORT}:8161       # broker (admin:adminactivemq)(amq:amq)
+      - ${ACTIVEMQ_BROKER_PORT}:61616   # web    http://boot2docker:8161/admin (admin:admin)
+
+  config:
+    build:
+      context: ./config/
+      dockerfile: Dockerfile
+    restart: on-failure
+    container_name: config
+    ports:
+      - "8888:8888"
+
+  eureka:
+    build:
+      context: ./eureka/
+      dockerfile: Dockerfile
+    container_name: eureka
+    restart: on-failure
+    ports:
+      - "8761:8761"
+    env_file:
+      - ./.env
+    environment:
+      - ADMIN_SERVICE_HOST=admin_panel
+      - CONFIG_URL=http://root:s3cr3t@config:8888
+    depends_on:
+      - config
+
+  admin-panel:
+    build:
+      context: ./admin-panel/
+      dockerfile: Dockerfile
+    container_name: admin_panel
+    restart: on-failure
+    ports:
+      - "8002:8002"
+    env_file:
+      - ./.env
+    environment:
+      - EUREKA_HOST=eureka
+      - CONFIG_URL=http://root:s3cr3t@config:8888
+    depends_on:
+      - config
+
+  faculty:
+    build:
+      context: ./faculty/
+      dockerfile: Dockerfile
+    container_name: faculty
+    restart: on-failure
+    ports:
+      - "8001:8001"
+      - "9001:0001"
+    env_file:
+      - ./.env
+    environment:
+      - EUREKA_HOST=eureka
+      - CONFIG_URL=http://root:s3cr3t@config:8888
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=postgres
+      - ADMIN_SERVICE_HOST=admin_panel
+      - ACTIVEMQ_BROKER_HOST=activemq
+    depends_on:
+      - postgres
+      - eureka
+      - config
+
+  auth:
+    build:
+      context: ./auth/
+      dockerfile: Dockerfile
+    container_name: auth
+    restart: on-failure
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+    env_file:
+      - ./.env
+    environment:
+      - EUREKA_HOST=eureka
+      - EUREKA_PORT=8761
+      - CONFIG_URL=http://root:s3cr3t@config:8888
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - ADMIN_SERVICE_HOST=admin_panel
+      - ADMIN_SERVICE_PORT=8888
+      - ACTIVEMQ_BROKER_HOST=activemq
+    depends_on:
+      - postgres
+      - eureka
+      - config
+
+  analytics:
+    build:
+      context: ./analytics/
+      dockerfile: Dockerfile
+    container_name: analytics
+    restart: on-failure
+    ports:
+      - "8005:8005"
+    env_file:
+      - ./.env
+    environment:
+      - EUREKA_HOST=eureka
+      - EUREKA_PORT=8761
+      - CONFIG_URL=http://root:s3cr3t@config:8888
+      - ADMIN_SERVICE_HOST=admin_panel
+      - ADMIN_SERVICE_PORT=8888
+      - ACTIVEMQ_BROKER_HOST=activemq
+    depends_on:
+      - eureka
+      - config
+
+  enrollment:
+    build:
+      context: ./enrollment/
+      dockerfile: Dockerfile
+    container_name: enrollment
+    restart: on-failure
+    ports:
+      - "8003:8003"
+    env_file:
+      - ./.env
+    environment:
+      - EUREKA_HOST=eureka
+      - EUREKA_PORT=8761
+      - CONFIG_URL=http://root:s3cr3t@config:8888
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=postgres
+      - ADMIN_SERVICE_HOST=admin_panel
+      - ADMIN_SERVICE_PORT=8888
+      - ACTIVEMQ_BROKER_HOST=activemq
+    depends_on:
+      - faculty
+      - auth
+      - eureka
+      - config
+
+  gateway:
+    build:
+      context: ./gateway/
+      dockerfile: Dockerfile
+    container_name: gateway
+    restart: on-failure
+    ports:
+      - "8010:8010"
+    env_file:
+      - ./.env
+    environment:
+      - EUREKA_HOST=eureka
+      - EUREKA_PORT=8761
+      - CONFIG_URL=http://root:s3cr3t@config:8888
+      - ADMIN_SERVICE_HOST=admin_panel
+      - ADMIN_SERVICE_PORT=8888
+      - ACTIVEMQ_BROKER_HOST=activemq
+    depends_on:
+      - eureka
+      - config
+      - auth
+      - enrollment
+      - faculty
+
+  notification:
+    build:
+      context: ./notification/
+      dockerfile: Dockerfile
+    container_name: notification
+    restart: on-failure
+    ports:
+      - "8004:8004"
+    env_file:
+      - ./.env
+    environment:
+      - EUREKA_HOST=eureka
+      - EUREKA_PORT=8761
+      - CONFIG_URL=http://root:s3cr3t@config:8888
+      - ADMIN_SERVICE_HOST=admin_panel
+      - ADMIN_SERVICE_PORT=8888
+      - ACTIVEMQ_BROKER_HOST=activemq
+    depends_on:
+      - eureka
+      - config
+
+volumes:
+  db:
+    driver:
+      local
