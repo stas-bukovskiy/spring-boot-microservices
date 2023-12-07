@@ -1,18 +1,18 @@
-package com.recordsystem.faculty.service;
+package com.recordsystem.faculty.service.impl;
 
 import com.google.common.collect.Lists;
 import com.recordsystem.faculty.model.Discipline;
 import com.recordsystem.faculty.model.Faculty;
 import com.recordsystem.faculty.repository.DisciplineRepository;
+import com.recordsystem.faculty.service.DisciplineService;
+import com.recordsystem.faculty.service.FacultyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service

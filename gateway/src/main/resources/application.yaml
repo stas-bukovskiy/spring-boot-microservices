@@ -15,6 +15,18 @@ spring:
 spring:
   config:
     import:
+      - file:.env[.properties]
       - configserver:${CONFIG_URL}
     activate:
       on-profile: docker
+---
+service:
+  uri:
+    faculty: "http://localhost:8001"
+    discipline: "http://localhost:8001"
+    schedule: "http://localhost:8001"
+    auth: "http://localhost:8000"
+    user: "http://localhost:8000"
+    enrollment: "http://localhost:8003"
+    notification: "http://localhost:8004"
+    admin: "http://localhost:8002"

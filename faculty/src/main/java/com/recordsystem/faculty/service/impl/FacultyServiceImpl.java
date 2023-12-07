@@ -1,8 +1,9 @@
-package com.recordsystem.faculty.service;
+package com.recordsystem.faculty.service.impl;
 
 import com.recordsystem.faculty.model.Faculty;
 import com.recordsystem.faculty.repository.FacultyRepository;
 import com.recordsystem.faculty.response.Email;
+import com.recordsystem.faculty.service.FacultyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FacultyServiceImpl implements FacultyService{
+public class FacultyServiceImpl implements FacultyService {
 
     private final FacultyRepository facultyRepository;
     private final JmsTemplate jmsTemplate;
