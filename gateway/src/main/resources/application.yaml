@@ -11,26 +11,6 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
-      routes:
-#        - id: enrollment-service
-#          predicates:
-#            - Path=/api/v1/enrollment/**
-#          filters:
-#            - RewritePath=/api/v1/enrollment/, /enrollment/
-#          uri: http://localhost:${ENROLLMENT_SERVICE_PORT}
-#        - id: notification-service
-#          predicates:
-#            - Path=/api/v1/notification/**
-#          filters:
-#            - RewritePath=/api/v1/notification/, /notification/
-#          uri: http://localhost:${NOTIFICATION_SERVICE_PORT}
-#        - id: analytics-service
-#          predicates:
-#            - Path=/api/v1/analytics/**
-#          filters:
-#            - RewritePath=/api/v1/analytics/, /analytics/
-#          uri: http://localhost:${ANALYTICS_SERVICE_PORT}
-
 ---
 spring:
   config:
