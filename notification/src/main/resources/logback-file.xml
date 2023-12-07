@@ -1,0 +1,15 @@
+<configuration>
+    <!-- Appender for app1 -->
+    <appender name="SYSTEM_EVENT_LOGGER" class="ch.qos.logback.core.FileAppender">
+        <file>logs/events.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root logger for app1 -->
+    <root level="info">
+        <appender-ref ref="SYSTEM_EVENT_LOGGER"/>
+    </root>
+</configuration>

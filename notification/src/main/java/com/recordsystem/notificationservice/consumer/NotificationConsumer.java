@@ -17,8 +17,6 @@ public class NotificationConsumer {
 
     @JmsListener(destination = "${activemq.faculty.queue.name}")
     public void receiveNewFaculty(String email) {
-        log.info("Received <" + email + ">");
-
         service.sendNotification(email);
     }
 

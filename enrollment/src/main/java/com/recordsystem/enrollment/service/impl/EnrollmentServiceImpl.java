@@ -1,5 +1,6 @@
 package com.recordsystem.enrollment.service.impl;
 
+import com.recordsystem.enrollment.dto.DisciplineDto;
 import com.recordsystem.enrollment.dto.EnrollmentRequest;
 import com.recordsystem.enrollment.dto.StudentDto;
 import com.recordsystem.enrollment.entity.Enrollment;
@@ -11,12 +12,14 @@ import com.recordsystem.enrollment.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.ReplayProcessor;
+import reactor.util.function.Tuple2;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     private final ReplayProcessor<EnrollmentState> processor = ReplayProcessor.create(1);
 
+    private final JmsTemplate jmsTemplate;
 
     private final CourseService courseService;
     private final StudentService studentService;
@@ -67,13 +71,22 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                     }
                 }))
                 .map(tuple -> {
-                    // TODO add notification event sending
+                    StudentDto student = tuple.getT1();
+                    DisciplineDto discipline = tuple.getT2();
+
+                    notifyAboutEnrollment(student, discipline);
+
                     return Enrollment.builder()
                             .studentId(request.studentId())
                             .courseId(request.disciplineId())
                             .build();
                 })
                 .flatMap(enrollmentRepository::save);
+    }
+
+    private void notifyAboutEnrollment(StudentDto student, DisciplineDto discipline) {
+        String message = "Student " + student.getEmail() + " enrolled on discipline " + discipline.getName();
+        jmsTemplate.convertAndSend("system_events", message);
     }
 
 

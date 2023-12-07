@@ -30,33 +30,34 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public List<Faculty> getAllFaculties() {
-        jmsTemplate.convertAndSend(getQueueFiltering, "getAllFaculties - not - important", messagePostProcessor -> {
-            messagePostProcessor.setStringProperty("filterCriteria", "not-important");
-            return messagePostProcessor;
+        jmsTemplate.convertAndSend(getQueueFiltering, "getAllFaculties - not - important", message -> {
+            message.setStringProperty("filterCriteria", "not-important");
+            return message;
         });
+
         return facultyRepository.findAll();
     }
 
     @Override
     public Faculty getFacultyById(Long id) {
-        jmsTemplate.convertAndSend(getQueueFiltering, "getOneFaculties - important", messagePostProcessor -> {
-            messagePostProcessor.setStringProperty("filterCriteria", "important");
-            return messagePostProcessor;
+        jmsTemplate.convertAndSend(getQueueFiltering, "getOneFaculties - important", message -> {
+            message.setStringProperty("filterCriteria", "important");
+            return message;
         });
+
         return facultyRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Faculty not found"));
     }
 
     @Override
     public Faculty createFaculty(String name, String description) {
-        Email email = new Email("a@mail.com","Faculty"+ name +" created");
-//        log.info(String.format("queue: %s, for %s", queue, email));
-        jmsTemplate.convertAndSend(queue, email.toString());
+        Email email = new Email("a@mail.com","Faculty " + name + " created");
+
         jmsTemplate.convertAndSend(queue, email.toString());
 
-        boolean isExist = facultyRepository.existsByName(name);
-        if (isExist) {
+        if (facultyRepository.existsByName(name)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "discipline with such name is already exist");
         }
+
         return facultyRepository.save(facultyRepository.save(Faculty.builder()
                 .name(name)
                 .description(description)
@@ -65,7 +66,8 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty updateFaculty(Long id, String name, String description) {
-        Faculty fac = facultyRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Faculty not found"));
+        Faculty fac = facultyRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Faculty not found"));
         fac.setName(name);
         fac.setDescription(description);
 
