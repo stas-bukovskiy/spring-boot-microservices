@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SystemEventConsumer {
 
-    @JmsListener(destination = "system_events", selector = "filterCriteria = 'important'")
+    @JmsListener(destination = "system_events")
     private void handleSystemEvent(String event) {
         log.info(event);
     }

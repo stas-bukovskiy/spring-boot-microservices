@@ -22,7 +22,8 @@ services:
     ports:
       - ${ACTIVEMQ_WEB_PORT}:8161       # broker (admin:adminactivemq)(amq:amq)
       - ${ACTIVEMQ_BROKER_PORT}:61616   # web    http://boot2docker:8161/admin (admin:admin)
-
+    volumes:
+      - ./activemq.xml:/opt/activemq/conf/activemq.xml
 volumes:
   db:
     driver:

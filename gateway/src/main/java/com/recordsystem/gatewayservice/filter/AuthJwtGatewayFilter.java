@@ -1,6 +1,7 @@
 package com.recordsystem.gatewayservice.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -16,10 +17,11 @@ public class AuthJwtGatewayFilter extends AbstractGatewayFilterFactory<AuthJwtGa
 
     private final WebClient webClient;
 
+
     @Autowired
-    public AuthJwtGatewayFilter(WebClient webClient) {
+    public AuthJwtGatewayFilter(WebClient webClient, @Value("${service.uri.auth}") String authServiceUri) {
         super(Config.class);
-        this.webClient = webClient.mutate().baseUrl("http://localhost:8080/auth").build();
+        this.webClient = webClient.mutate().baseUrl(authServiceUri + "/api/v1/auth").build();
     }
 
     @Override

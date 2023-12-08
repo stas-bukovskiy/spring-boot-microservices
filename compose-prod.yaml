@@ -24,6 +24,8 @@ services:
     ports:
       - ${ACTIVEMQ_WEB_PORT}:8161       # broker (admin:adminactivemq)(amq:amq)
       - ${ACTIVEMQ_BROKER_PORT}:61616   # web    http://boot2docker:8161/admin (admin:admin)
+    volumes:
+      - ./activemq.xml:/opt/activemq/conf/activemq.xml
 
   config:
     build:
@@ -146,6 +148,8 @@ services:
     env_file:
       - ./.env
     environment:
+      - GRPC_AUTH_CLIENT_URI=auth:9000
+      - GRPC_DISCIPLINE_CLIENT_URI=faculty:9001
       - EUREKA_HOST=eureka
       - EUREKA_PORT=8761
       - CONFIG_URL=http://root:s3cr3t@config:8888
@@ -171,12 +175,22 @@ services:
     env_file:
       - ./.env
     environment:
-      - EUREKA_HOST=eureka
       - EUREKA_PORT=8761
       - CONFIG_URL=http://root:s3cr3t@config:8888
-      - ADMIN_SERVICE_HOST=admin_panel
       - ADMIN_SERVICE_PORT=8888
       - ACTIVEMQ_BROKER_HOST=activemq
+      - USER_SERVICE_PORT=8000
+      - USER_SERVICE_HOST=auth
+      - ADMIN_SERVICE_HOST=admin-panel
+      - FACULTY_SERVICE_HOST=faculty
+      - FACULTY_SERVICE_PORT=8001
+      - ENROLLMENT_SERVICE_HOST=enrollment
+      - ENROLLMENT_SERVICE_PORT=8003
+      - ANALYTICS_SERVICE_PORT=8005
+      - ANALYTICS_SERVICE_HOST=analytics
+      - GATEWAY_PORT=8010
+      - NOTIFICATION_SERVICE_PORT=8004
+      - NOTIFICATION_SERVICE_HOST=notification
     depends_on:
       - eureka
       - config
@@ -205,7 +219,66 @@ services:
       - eureka
       - config
 
+#  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+#    container_name: elasticsearch
+#    environment:
+#      - xpack.security.enabled=false
+#      - discovery.type=single-node
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#      nofile:
+#        soft: 65536
+#        hard: 65536
+#    cap_add:
+#      - IPC_LOCK
+#    volumes:
+#      - elasticsearch-data-volume:/usr/share/elasticsearch/data
+#    ports:
+#      - "9200:9200"
+#    networks:
+#      - elk
+#
+#  logstash:
+#    image: docker.elastic.co/logstash/logstash:7.12.0
+#    container_name: logstash
+#    volumes:
+#      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+#      - ./spring-boot-microservices.log:/usr/share/logstash/spring-boot-microservices.log
+#    environment:
+#      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+#      ELASTICSEARCH_HOST: http://elasticsearch:9200/
+#      xpack.monitoring.enabled: true
+#      pipeline.ecs_compatibility: disabled
+#    ports:
+#      - "5000:5000"
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - elk
+#
+#  kibana:
+#    container_name: kibana
+#    image: docker.elastic.co/kibana/kibana:7.12.0
+#    environment:
+#      SERVER_NAME: kibana
+#      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+#    ports:
+#      - "5601:5601"
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - elk
+
 volumes:
   db:
     driver:
       local
+  elasticsearch-data-volume:
+    driver: local
+
+networks:
+  elk:
+    driver: bridge
