@@ -37,7 +37,7 @@ spring:
     activate:
       on-profile: dev
 allowed:
-  origin: *
+  origins: '*'
 
 ---
 spring:
@@ -47,4 +47,4 @@ spring:
     activate:
       on-profile: docker
 allowed:
-  origin: http://${GATEWAY_HOST}:${GATEWAY_PORT}
+  origins: http://${GATEWAY_HOST}:${GATEWAY_PORT}

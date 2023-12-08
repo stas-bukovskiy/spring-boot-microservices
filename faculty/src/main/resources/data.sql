@@ -1,8 +1,8 @@
 -- Insert data into the Faculty table
-INSERT INTO faculty (name, description)
-VALUES ('Faculty of Science', 'Science department description'),
-       ('Faculty of Arts', 'Arts department description'),
-       ('Faculty of Engineering', 'Engineering department description');
+INSERT INTO faculty (id, name, description)
+VALUES (1,'Faculty of Science', 'Science department description'),
+       (2,'Faculty of Arts', 'Arts department description'),
+       (3,'Faculty of Engineering', 'Engineering department description');
 
 -- Insert data into the Discipline table
 INSERT INTO discipline (name, description, faculty_id)

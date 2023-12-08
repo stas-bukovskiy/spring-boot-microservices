@@ -30,7 +30,7 @@ spring:
     activate:
       on-profile: dev
 allowed:
-  origins: *
+  origins: '*'
 
 ---
 spring:

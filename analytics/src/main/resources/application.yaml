@@ -8,6 +8,15 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+activemq:
+  faculty:
+    queue:
+      name: "faculty_service"
+    delete: "faculty_delete_service"
+    get: "faculty_get_service"
+    routing:
+      key: "faculty_service_routing_key"
+
 ---
 spring:
   config:
@@ -25,11 +34,3 @@ spring:
     activate:
       on-profile: docker
 
-activemq:
-  faculty:
-    queue:
-      name: "faculty_service"
-    delete: "faculty_delete_service"
-    get: "faculty_get_service"
-    routing:
-      key: "faculty_service_routing_key"

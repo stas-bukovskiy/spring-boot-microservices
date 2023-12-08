@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine3.13
+FROM openjdk:17-oracle
 ENV SERVER_PORT 8888
 ENV SPRING_PROFILES_ACTIVE docker,native
 COPY build/libs/config-0.0.1.jar /app/config.jar

@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine3.13
+FROM openjdk:17-oracle
 ENV SERVER_PORT 8004
 ENV SPRING_PROFILES_ACTIVE docker
 COPY build/libs/notification-0.0.1.jar /app/notification.jar
