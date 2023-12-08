@@ -86,6 +86,8 @@ services:
       - POSTGRES_HOST=postgres
       - ADMIN_SERVICE_HOST=admin_panel
       - ACTIVEMQ_BROKER_HOST=activemq
+      - GATEWAY_HOST=gateway
+      - GATEWAY_PORT=8010
     depends_on:
       - postgres
       - eureka
@@ -111,6 +113,8 @@ services:
       - ADMIN_SERVICE_HOST=admin_panel
       - ADMIN_SERVICE_PORT=8888
       - ACTIVEMQ_BROKER_HOST=activemq
+      - GATEWAY_HOST=gateway
+      - GATEWAY_PORT=8010
     depends_on:
       - postgres
       - eureka
@@ -158,6 +162,8 @@ services:
       - ADMIN_SERVICE_HOST=admin_panel
       - ADMIN_SERVICE_PORT=8888
       - ACTIVEMQ_BROKER_HOST=activemq
+      - GATEWAY_HOST=gateway
+      - GATEWAY_PORT=8010
     depends_on:
       - faculty
       - auth

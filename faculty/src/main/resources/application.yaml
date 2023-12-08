@@ -36,6 +36,8 @@ spring:
       - configserver:http://root:s3cr3t@localhost:8888
     activate:
       on-profile: dev
+allowed:
+  origin: *
 
 ---
 spring:
@@ -44,3 +46,5 @@ spring:
       - configserver:${CONFIG_URL}
     activate:
       on-profile: docker
+allowed:
+  origin: http://${GATEWAY_HOST}:${GATEWAY_PORT}
